@@ -1,4 +1,5 @@
 "use strict";
+var _a;
 module.exports = {
     server: {
         port: process.env.PORT || 9876,
@@ -9,4 +10,5 @@ module.exports = {
         DB_USERNAME: process.env.DB_PASSWORD ? `${process.env.DB_USERNAME}:` : "",
         DB_PASSWORD: process.env.DB_PASSWORD ? `${process.env.DB_PASSWORD}@` : "",
     },
+    SEED: (_a = process.env.SEED) !== null && _a !== void 0 ? _a : "true",
 };

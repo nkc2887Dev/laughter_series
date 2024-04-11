@@ -13,7 +13,7 @@ const db_1 = require("../config/db");
 const userConstant_1 = require("../config/constants/userConstant");
 const bcrypt = require("bcrypt");
 const mongoosePaginate = require("mongoose-paginate-v2");
-var idValidator = require("mongoose-id-validator");
+// var idValidator = require("mongoose-id-validator");
 const myCustomLabels = {
     totalDocs: "itemCount",
     docs: "data",
@@ -64,6 +64,6 @@ schema.pre("findOneAndUpdate", function (next) {
     });
 });
 schema.plugin(mongoosePaginate);
-schema.plugin(idValidator);
-const user = (0, mongoose_1.model)("users", schema, "users");
-module.exports = user;
+// schema.plugin(idValidator);
+const User = (0, mongoose_1.model)("users", schema, "users");
+module.exports = User;

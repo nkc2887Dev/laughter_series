@@ -14,10 +14,18 @@ const userServic_1 = require("../../services/client/userServic");
 const registerUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, userServic_1.createUserService)(req.body);
-        res.status(201).json({
-            message: "User create Successfully!",
-            data: result,
-        });
+        if (result) {
+            res.status(201).json({
+                message: "User create Successfully!",
+                data: result,
+            });
+        }
+        else {
+            res.status(401).json({
+                message: "User create failed!",
+                data: null,
+            });
+        }
     }
     catch (error) {
         console.error(`Error-registerUser ${error}`);
