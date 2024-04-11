@@ -8,7 +8,7 @@ mongoose.connect(connectionString);
 const db = mongoose.connection;
 
 db.once("open", () => {
-  console.info("Connection Succeed");
+  console.info("Connection Succeed 🙌");
 });
 
 db.on("error", () => {

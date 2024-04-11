@@ -12,5 +12,6 @@ routes.post("/create", registerUserController);
 routes.get("/login", loginUserController);
 routes.put("/forgot-password", forgotPasswordController);
 routes.get("/profile", profileController);
+routes.get("/logout", loginUserController);
 
 export = routes;

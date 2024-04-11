@@ -1,15 +1,24 @@
-import user from "../../models/user";
-import { createUser } from "./interfaces/create-user";
+import { ROLE } from "../../config/constants/userConstant";
+import User from "../../models/user";
+import Role from "../../models/role";
+import { createUser, roles } from "./interfaces/create-user";
 
 export const createUserService = async (data: createUser): Promise<any> => {
   try {
-    const finduser = await user.findOne({ email: data.email });
+    const roles: any[] = [];
+    const finduser = await User.findOne({ email: data.email });
     if (finduser) {
       return finduser;
     }
-    const createUser = await user.create(data);
+    const roleData: any = await Role.findOne({ code: ROLE.CANDIDATE });
+    roles.push({ roleId: roleData._id });
+    data.roles = roles;
+    data.mobNo = data?.mobNo?.replace(/^0/g, "");
+    const createUser = await User.create(data);
     return createUser;
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error - createUserService", error);
+  }
 };
 
 export const loginUserService = () => {
