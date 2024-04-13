@@ -1,4 +1,4 @@
-export = {
+export default {
   server: {
     port: process.env.PORT || 9876,
     DB_CONNECTION: process.env.DB_CONNECTION || "mongodb",
@@ -10,4 +10,5 @@ export = {
     DB_PASSWORD: process.env.DB_PASSWORD ? `${process.env.DB_PASSWORD}@` : "",
   },
   SEED: process.env.SEED ?? "true",
+  TZ: process.env.TZ ?? "asia/kolkata",
 };

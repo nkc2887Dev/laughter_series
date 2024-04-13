@@ -6,6 +6,7 @@
     "firstName": "laughter",
     "lastName": "Admin",
     "name": "Laughter Admin",
-    "role": "ADMIN"
+    "role": "ADMIN",
+    "password":"Test@123"
   }
 ]
