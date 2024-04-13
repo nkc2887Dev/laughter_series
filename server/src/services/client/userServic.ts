@@ -9,12 +9,19 @@ export const createUserService = async (data: createUser): Promise<any> => {
     const roles: any[] = [];
     const finduser = await User.findOne({ $or: [{ email: data.email }, { mobNo: data.mobNo }] });
     if (finduser) {
-      return "Provided email or phone number are already exists.";
+      return {
+        flag: false,
+        data: "Provided email or phone number are already exists.",
+      };
     }
     const roleData: any = await Role.findOne({ code: ROLE.CANDIDATE });
     roles.push({ roleId: roleData._id });
     data.roles = roles;
-    return User.create(data);
+    const createUser = await User.create(data);
+    return {
+      flag: true,
+      data: createUser,
+    };
   } catch (error) {
     console.error("Error - createUserService", error);
   }
@@ -25,15 +32,24 @@ export const loginUserService = async (data: login, role: string) => {
     const user: any = await User.findOne({ email: data.email, isActive: true });
 
     if (!user) {
-      return "User not found!";
+      return {
+        flag: false,
+        data: "User not found!",
+      };
     }
     const isPasswordMatch = await user.isPasswordMatch(data.password);
     if (!isPasswordMatch) {
-      return "Password is wrong!";
+      return {
+        flag: false,
+        data: "Password is wrong!",
+      };
     }
     await updateLastLogin(user);
     await generateTokenManually({ user, email: user.email });
-    return user;
+    return {
+      flag: true,
+      data: user,
+    };
   } catch (error) {
     console.error("Error - loginUserService", error);
   }
@@ -47,9 +63,15 @@ export const forgotPasswordService = async () => {
 export const profileService = async (user: any) => {
   try {
     if (!user) {
-      return "User not found!";
+      return {
+        flag: false,
+        data: "User not found!",
+      };
     }
-    return user;
+    return {
+      flag: true,
+      data: user,
+    };
   } catch (error) {
     console.error("Error - profileService", error);
   }

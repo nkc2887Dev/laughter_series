@@ -11,13 +11,13 @@ import { ROLE } from "../../config/constants/userConstant";
 export const registerUserController = async (req: Request, res: Response) => {
   try {
     const result = await createUserService(req.body);
-    if (result) {
+    if (result.flag) {
       res.status(201).json({
         message: "User create Successfully!",
         data: result,
       });
     } else {
-      res.status(401).json({
+      res.status(200).json({
         message: result.data,
         data: null,
       });
@@ -29,14 +29,14 @@ export const registerUserController = async (req: Request, res: Response) => {
 
 export const loginUserController = async (req: Request, res: Response) => {
   try {
-    const result = await loginUserService(req.body, ROLE.CANDIDATE);
-    if (result) {
-      res.status(201).json({
+    const result: any = await loginUserService(req.body, ROLE.CANDIDATE);
+    if (result.flag) {
+      res.status(200).json({
         message: "User login Successfully!",
         data: result,
       });
     } else {
-      res.status(401).json({
+      res.status(404).json({
         message: result.data,
         data: null,
       });
@@ -56,14 +56,14 @@ export const forgotPasswordController = async (req: Request, res: Response) => {
 
 export const profileController = async (req: Request, res: Response) => {
   try {
-    const result = await profileService(req.user);
-    if (result) {
-      res.status(201).json({
+    const result: any = await profileService(req.user);
+    if (result.flag) {
+      res.status(200).json({
         message: "User data has been successfully obtained.",
         data: result,
       });
     } else {
-      res.status(401).json({
+      res.status(200).json({
         message: result.data,
         data: null,
       });
