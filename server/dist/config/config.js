@@ -1,5 +1,7 @@
 "use strict";
-module.exports = {
+var _a, _b;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
     server: {
         port: process.env.PORT || 9876,
         DB_CONNECTION: process.env.DB_CONNECTION || "mongodb",
@@ -9,4 +11,6 @@ module.exports = {
         DB_USERNAME: process.env.DB_PASSWORD ? `${process.env.DB_USERNAME}:` : "",
         DB_PASSWORD: process.env.DB_PASSWORD ? `${process.env.DB_PASSWORD}@` : "",
     },
+    SEED: (_a = process.env.SEED) !== null && _a !== void 0 ? _a : "true",
+    TZ: (_b = process.env.TZ) !== null && _b !== void 0 ? _b : "asia/kolkata",
 };

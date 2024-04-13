@@ -9,15 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.profileController = exports.forgotPasswordController = exports.loginUserController = exports.registerUserController = void 0;
+exports.logoutUserController = exports.profileController = exports.forgotPasswordController = exports.loginUserController = exports.registerUserController = void 0;
 const userServic_1 = require("../../services/client/userServic");
+const userConstant_1 = require("../../config/constants/userConstant");
 const registerUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, userServic_1.createUserService)(req.body);
-        res.status(201).json({
-            message: "User create Successfully!",
-            data: result,
-        });
+        if (result) {
+            res.status(201).json({
+                message: "User create Successfully!",
+                data: result,
+            });
+        }
+        else {
+            res.status(401).json({
+                message: result.data,
+                data: null,
+            });
+        }
     }
     catch (error) {
         console.error(`Error-registerUser ${error}`);
@@ -26,8 +35,19 @@ const registerUserController = (req, res) => __awaiter(void 0, void 0, void 0, f
 exports.registerUserController = registerUserController;
 const loginUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, userServic_1.loginUserService)();
-        console.log("result: ", result);
+        const result = yield (0, userServic_1.loginUserService)(req.body, userConstant_1.ROLE.CANDIDATE);
+        if (result) {
+            res.status(201).json({
+                message: "User login Successfully!",
+                data: result,
+            });
+        }
+        else {
+            res.status(401).json({
+                message: result.data,
+                data: null,
+            });
+        }
     }
     catch (error) {
         console.error(`Error-registerUser ${error}`);
@@ -45,10 +65,31 @@ const forgotPasswordController = (req, res) => __awaiter(void 0, void 0, void 0,
 exports.forgotPasswordController = forgotPasswordController;
 const profileController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, userServic_1.profileService)();
+        const result = yield (0, userServic_1.profileService)(req.user);
+        if (result) {
+            res.status(201).json({
+                message: "User data has been successfully obtained.",
+                data: result,
+            });
+        }
+        else {
+            res.status(401).json({
+                message: result.data,
+                data: null,
+            });
+        }
     }
     catch (error) {
         console.error(`Error-registerUser ${error}`);
     }
 });
 exports.profileController = profileController;
+const logoutUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield (0, userServic_1.logoutUserService)(req);
+    }
+    catch (error) {
+        console.error(`Error-registerUser ${error}`);
+    }
+});
+exports.logoutUserController = logoutUserController;

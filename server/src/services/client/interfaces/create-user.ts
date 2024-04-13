@@ -7,9 +7,13 @@ export interface createUser {
   email: string;
   password: string;
   roles: {
-    roleId: Types.ObjectId; // Update the type to ObjectId
+    roleId: Types.ObjectId;
   }[];
 }
 export interface roles {
-  roleId: Types.ObjectId; // Update the type to ObjectId
+  roleId: Types.ObjectId;
+};
+export interface login {
+  email: string;
+  password: string;
 };

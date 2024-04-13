@@ -9,7 +9,7 @@ const connectionString = `${config_1.default.server.DB_CONNECTION}://${dbConfigu
 mongoose_1.default.connect(connectionString);
 const db = mongoose_1.default.connection;
 db.once("open", () => {
-    console.info("Connection Succeed");
+    console.info("Connection Succeed 🙌");
 });
 db.on("error", () => {
     console.error("Error in connect mongo");

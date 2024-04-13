@@ -3,7 +3,7 @@ import { Schema } from "../config/db";
 import { COUNTRYCONST } from "../config/constants/userConstant";
 const bcrypt = require("bcrypt");
 const mongoosePaginate = require("mongoose-paginate-v2");
-// var idValidator = require("mongoose-id-validator");
+var idValidator = require("mongoose-id-validator");
 
 const myCustomLabels = {
   totalDocs: "itemCount",
@@ -33,8 +33,26 @@ const schema = new Schema(
       { roleId: { type: Schema.Types.ObjectId, ref: "role", index: true } }, // role ref  schema = role
     ],
     password: { type: String },
+    tokens: [
+      {
+        token: { type: String },
+        validateTill: { type: Date },
+        refreshToken: { type: String },
+        deviceDetail: { type: String },
+      },
+    ],
+    fcmTokens: { type: Array },
+    lastLogin: { type: Date },
   },
   {
+    toJSON: {
+      transform(doc, ret) {
+        delete ret.password;
+        delete ret.tokens;
+        delete ret.fcmTokens;
+        delete ret.__v;
+      },
+    },
     timestamps: true,
   },
 );
@@ -46,6 +64,9 @@ schema.pre("save", async function (next) {
   if (this.firstName || this.lastName) {
     this.name = `${this?.firstName ? `${this?.firstName} ` : ""}${this?.lastName || ""}`;
   }
+  if (this.password) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
   next();
 });
 
@@ -55,11 +76,18 @@ schema.pre("findOneAndUpdate", async function (this: any, next) {
       this?._update?.lastName || ""
     }`;
   }
+  if (this._update.password) {
+    this._update.password = await bcrypt.hash(this._update.password, 10);
+  }
   next();
 });
 
 schema.plugin(mongoosePaginate);
-// schema.plugin(idValidator);
+schema.plugin(idValidator);
+
+schema.methods.isPasswordMatch = async function (password: string) {
+  return bcrypt.compare(password, this.password);
+};
 
 const User = model("users", schema, "users");
 export = User;

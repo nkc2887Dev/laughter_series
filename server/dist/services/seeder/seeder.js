@@ -1,49 +1,61 @@
-import User from "../../models/user";
-import Role from "../../models/role";
-
-export const seedRoles = async () => {
-  try {
-    const rolesJSON = require("../../seeders/roles.json");
-    Promise.all(
-      rolesJSON.map(async (data: any) => {
-        let findRole = await Role.findOne({ code: data.code });
-        if (!findRole) {
-          await Role.create(data);
-        }
-      }),
-    );
-    console.info("Roles seeded successfully! 👥");
-    return true;
-  } catch (error: any) {
-    console.error("Error in seedRoles!", error);
-    throw new Error(error);
-  }
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
-
-export const seedAdmin = async () => {
-  try {
-    const adminJSON = require("../../seeders/admin.json");
-    Promise.all(
-      adminJSON.map(async (data: any) => {
-        data.email = data.email.trim().toLowerCase();
-        let roles = [];
-        let findUser = await User.findOne({ email: data.email });
-        if (!findUser) {
-          const findRole: any = await Role.findOne({ code: data.role })
-          roles.push({ roleId: findRole._id });
-          data.roles = roles;
-          data.createdAt = new Date();
-          await User.create(data)
-        }
-      }),
-    );
-    console.info("Admin seeded successfully! 🛡️");
-    return true;
-  } catch (error) {
-    console.error("Error in seedAdmin!", error);
-  }
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.seedAdmin = exports.seedRoles = void 0;
+const user_1 = __importDefault(require("../../models/user"));
+const role_1 = __importDefault(require("../../models/role"));
+const seedRoles = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const rolesJSON = require("../../seeders/roles.json");
+        Promise.all(rolesJSON.map((data) => __awaiter(void 0, void 0, void 0, function* () {
+            let findRole = yield role_1.default.findOne({ code: data.code });
+            if (!findRole) {
+                yield role_1.default.create(data);
+            }
+        })));
+        console.info("Roles seeded successfully! 👥");
+        return true;
+    }
+    catch (error) {
+        console.error("Error in seedRoles!", error);
+        throw new Error(error);
+    }
+});
+exports.seedRoles = seedRoles;
+const seedAdmin = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const adminJSON = require("../../seeders/admin.json");
+        Promise.all(adminJSON.map((data) => __awaiter(void 0, void 0, void 0, function* () {
+            data.email = data.email.trim().toLowerCase();
+            let roles = [];
+            let findUser = yield user_1.default.findOne({ email: data.email });
+            if (!findUser) {
+                const findRole = yield role_1.default.findOne({ code: data.role });
+                roles.push({ roleId: findRole._id });
+                data.roles = roles;
+                data.createdAt = new Date();
+                yield user_1.default.create(data);
+            }
+        })));
+        console.info("Admin seeded successfully! 🛡️");
+        return true;
+    }
+    catch (error) {
+        console.error("Error in seedAdmin!", error);
+    }
+});
+exports.seedAdmin = seedAdmin;
 // const seedSeries = async () => {
 //   try {
 //     const seriesGeneratorJSON = require("../seeders/seriesGenerator.json");
@@ -63,7 +75,6 @@ export const seedAdmin = async () => {
 //     console.error("Error in seedSeries!", error);
 //   }
 // };
-
 // const seedMaster = async () => {
 //   try {
 //     const masterJSON = require("../seeders/masters.json");
@@ -84,7 +95,6 @@ export const seedAdmin = async () => {
 //     console.error("Error in seedMaster!", error);
 //   }
 // };
-
 // const seedSettings = async () => {
 //   try {
 //     const settingJSON = require("../seeders/settings.json");
@@ -104,7 +114,6 @@ export const seedAdmin = async () => {
 //     console.error("Error in seedSettings!", error);
 //   }
 // };
-
 // const seedPages = async () => {
 //   try {
 //     const pagesJSON = require("../seeders/pages.json");
@@ -130,7 +139,6 @@ export const seedAdmin = async () => {
 //     console.error("Error in seedPages!", error);
 //   }
 // };
-
 // const seedResumeTemplates = async () => {
 //   try {
 //     const resumeTemplatesJSON = require("../seeders/resumeTemplates.json");
