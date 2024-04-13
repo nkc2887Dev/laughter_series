@@ -3,7 +3,7 @@ import { Schema } from "../config/db";
 import { COUNTRYCONST } from "../config/constants/userConstant";
 const bcrypt = require("bcrypt");
 const mongoosePaginate = require("mongoose-paginate-v2");
-var idValidator = require("mongoose-id-validator");
+// var idValidator = require("mongoose-id-validator");
 
 const myCustomLabels = {
   totalDocs: "itemCount",
@@ -83,7 +83,7 @@ schema.pre("findOneAndUpdate", async function (this: any, next) {
 });
 
 schema.plugin(mongoosePaginate);
-schema.plugin(idValidator);
+// schema.plugin(idValidator);
 
 schema.methods.isPasswordMatch = async function (password: string) {
   return bcrypt.compare(password, this.password);

@@ -7,6 +7,7 @@ import initSeed from "./seeders";
 import passport from "passport";
 import session from "express-session";
 import { JWT } from "./config/constants/userConstant";
+import cors from "cors";
 
 configEnv.config();
 mongoose;
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 if (config.SEED == "true") {
   initSeed();
 }
+app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
 
