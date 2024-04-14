@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../../Utils/AxiosInstance";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,13 +12,16 @@ const Login = () => {
   const handleSubmit = async (e: any) => {
     try {
       e.preventDefault();
-      const url = `${process.env.BACKEND_URL}${process.env.BACKEND_CLIENT_URL}user/login`;
-      const response = await axios.post(url, {
+      const response = await axiosInstance.post("client/user/login", {
         email: email,
         password: password,
       });
       if (response.data.data) {
         navigate("/home");
+        const token = response.data.data.data.tokens[0].token;
+        localStorage.removeItem("token");
+        localStorage.setItem("token", token);
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       } else {
         handleErrorResponse(response.data.message);
       }
@@ -76,7 +80,7 @@ const Login = () => {
           className="col-md-6 d-flex align-items-center justify-content-center p-5"
           style={{ backgroundColor: "rgba(40, 167, 69, 0.5)" }}
         >
-          <div className="container m-5 p-5 w-100">
+          <div className="container w-100">
             <form>
               {errorMessage && <div className="alert alert-danger mt-3">{errorMessage}</div>}
               <div className="form-group p-2">

@@ -3,6 +3,8 @@ import Login from "./components/Form/Login";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SignUp from "./components/Form/SignUp";
 import Home from "./components/Home/Home";
+import Profile from "./components/Home/Profile/Profile";
+import Joke from "./components/Home/Joke/Joke";
 
 const App: React.FC = () => {
   return (
@@ -20,7 +22,7 @@ const App: React.FC = () => {
               element={<SignUp />}
             />
             <Route
-              path="/home"
+              path="/home/*"
               element={<Home />}
             />
           </Routes>

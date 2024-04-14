@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../Utils/AxiosInstance";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -13,9 +14,8 @@ const SignUp = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-      const url = `${process.env.BACKEND_URL}${process.env.BACKEND_CLIENT_URL}user/create`;
     try {
-      const response = await axios.post(url, {
+      const response = await axiosInstance.post("client/user/create", {
         firstName,
         lastName,
         mobNo,
@@ -24,7 +24,7 @@ const SignUp = () => {
       });
 
       if (response.data.data !== null) {
-        navigate("/home");
+        navigate("/login");
       } else {
         handleErrorResponse(response.data.message);
       }
