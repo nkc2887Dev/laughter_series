@@ -24,7 +24,7 @@ const Navbar = () => {
             <li className="nav-item active mr-4">
               <Link
                 className="nav-link"
-                to="#"
+                to="home"
               >
                 Home
               </Link>
@@ -37,26 +37,37 @@ const Navbar = () => {
                 Features
               </Link>
             </li>
-            <li className="nav-item active mr-4">
+            <li className="btn-group dropleft">
               <Link
-                className="nav-link"
+                className="nav-link dropdown-toggle ml-5"
                 to="#"
+                role="button"
+                data-toggle="dropdown"
+                aria-expanded="false"
               >
-                Pricing
+                <img
+                  src="/logo.png"
+                  alt="LOGO"
+                  width="30"
+                  height="30"
+                />
               </Link>
+              <div className="dropdown-menu ">
+                <Link
+                  className="dropdown-item"
+                  to="/home/profile"
+                >
+                  Profile
+                </Link>
+                <Link
+                  className="dropdown-item"
+                  to="/home/joke"
+                >
+                  Post a joke
+                </Link>
+              </div>
             </li>
           </ul>
-          <Link
-            className="navbar-brand"
-            to=""
-          >
-            <img
-              src="/logo.png"
-              alt="LOGO"
-              width="30"
-              height="30"
-            />
-          </Link>
         </div>
       </nav>
     </>
