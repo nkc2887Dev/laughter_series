@@ -1,8 +1,10 @@
+import { createUser } from "../../../services/client/interfaces/create-user";
+
 export interface Joke {
   _id: string;
   title: string;
   content: string;
-  author: string;
+  author: createUser | any;
   authorName: string;
   isActive: boolean;
   category: string;

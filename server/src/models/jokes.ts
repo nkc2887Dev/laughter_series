@@ -1,5 +1,5 @@
 import { myCustomLabels } from "../config/constants/cutomPaginate";
-import { JokeCategory } from "../config/constants/jokesConstant";
+import { JOKES_CATEGORY } from "../config/constants/jokesConstant";
 import { Schema, model } from "../config/db";
 const mongoosePaginate = require("mongoose-paginate-v2");
 
@@ -19,8 +19,8 @@ const schema = new Schema(
     isActive: { type: Boolean, default: true, index: true }, //isActive
     category: {
       type: String,
-      enum: JokeCategory,
-      default: JokeCategory.OTHER,
+      enum: JOKES_CATEGORY,
+      default: JOKES_CATEGORY.OTHER,
     },
     likes: {
       type: Number,

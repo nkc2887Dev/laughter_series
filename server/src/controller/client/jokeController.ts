@@ -3,6 +3,7 @@ import {
   addJokeService,
   deleteJokeService,
   getJokeService,
+  likeDisLikeJokeService,
   listJokesService,
   updateJokeService,
 } from "../../services/client/jokeService";
@@ -59,6 +60,27 @@ export const updateJokeController = async (req: any, res: Response) => {
     const result: CommonReturnValue = await updateJokeService(req);
   } catch (error) {
     console.error(`Error-updateJokeController ${error}`);
+  }
+};
+
+export const likeDisLikeJokeController = async (req: any, res: Response) => {
+  try {
+    const id = req.params.jokeId;
+    const data = req.body;
+    const result: CommonReturnValue = await likeDisLikeJokeService(id, data);
+    if (result.flag) {
+      res.status(200).json({
+        message: "Jokes fetch Successfully!",
+        data: result.data,
+      });
+    } else {
+      res.status(401).json({
+        message: result.data,
+        data: null,
+      });
+    }
+  } catch (error) {
+    console.error(`Error-likeDisLikeJokeController ${error}`);
   }
 };
 

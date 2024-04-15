@@ -1,3 +1,8 @@
+export const STATUS = {
+  LIKE: "1",
+  DISLIKE: "2",
+};
+
 export const JOKES_CATEGORY = {
   PUN: "Pun",
   ONE_LINER: "One-liner",
@@ -13,9 +18,4 @@ export const JOKES_CATEGORY = {
   INSULT: "Insult",
   RIDDLE: "Riddle",
   OTHER: "Other",
-};
-
-export const STATUS = {
-  LIKE: "1",
-  DISLIKE: "2",
 };

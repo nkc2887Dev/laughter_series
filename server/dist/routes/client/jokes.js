@@ -11,6 +11,7 @@ const routes = express_1.default.Router();
 routes.post("/add", passport_1.authentication, (0, validate_1.validate)(jokeValidate_1.addJoke), jokeController_1.addJokeController);
 routes.get("/", passport_1.authentication, jokeController_1.getJokeController);
 routes.get("/list", passport_1.authentication, jokeController_1.listJokesController);
-routes.put("/update", passport_1.authentication, jokeController_1.updateJokeController);
+routes.put("/update", passport_1.authentication, (0, validate_1.validate)(jokeValidate_1.updateJoke), jokeController_1.updateJokeController);
+routes.post("/like-dislike/:jokeId", passport_1.authentication, (0, validate_1.validate)(jokeValidate_1.likeDisLikeJoke), jokeController_1.likeDisLikeJokeController);
 routes.delete("/delete", passport_1.authentication, jokeController_1.deleteJokeController);
 module.exports = routes;

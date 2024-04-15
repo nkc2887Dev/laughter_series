@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 
 export interface createUser {
+  name: string;
   firstName: string;
   lastName: string;
   mobNo: string;
