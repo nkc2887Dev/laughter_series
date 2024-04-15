@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteJoke = exports.updateJoke = exports.addJoke = void 0;
+exports.deleteJoke = exports.likeDisLikeJoke = exports.updateJoke = exports.addJoke = void 0;
 const joi_1 = __importDefault(require("joi"));
 exports.addJoke = joi_1.default.object({
     title: joi_1.default.string().required(),
@@ -19,7 +19,11 @@ exports.updateJoke = joi_1.default.object({
     likes: joi_1.default.number().optional().allow(null, ""),
     dislikes: joi_1.default.number().optional().allow(null, ""),
     comments: joi_1.default.array().items({
-        user: joi_1.default.string().optional(),
+        commentId: joi_1.default.string().optional(),
     }),
+});
+exports.likeDisLikeJoke = joi_1.default.object({
+    status: joi_1.default.string().required(),
+    userId: joi_1.default.string().required(),
 });
 exports.deleteJoke = joi_1.default.object({});

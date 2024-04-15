@@ -17,8 +17,8 @@ const schema = new db_1.Schema({
     isActive: { type: Boolean, default: true, index: true }, //isActive
     category: {
         type: String,
-        enum: jokesConstant_1.JokeCategory,
-        default: jokesConstant_1.JokeCategory.OTHER,
+        enum: jokesConstant_1.JOKES_CATEGORY,
+        default: jokesConstant_1.JOKES_CATEGORY.OTHER,
     },
     likes: {
         type: Number,

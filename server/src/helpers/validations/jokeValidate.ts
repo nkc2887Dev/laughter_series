@@ -15,10 +15,13 @@ export const updateJoke = joi.object({
   likes: joi.number().optional().allow(null, ""),
   dislikes: joi.number().optional().allow(null, ""),
   comments: joi.array().items({
-    user: joi.string().optional(),
+    commentId: joi.string().optional(),
   }),
 });
 
-export const deleteJoke = joi.object({
-    
+export const likeDisLikeJoke = joi.object({
+  status: joi.string().required(),
+  userId: joi.string().required(),
 });
+
+export const deleteJoke = joi.object({});

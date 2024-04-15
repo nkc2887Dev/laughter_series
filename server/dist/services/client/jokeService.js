@@ -12,9 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteJokeService = exports.updateJokeService = exports.getJokeService = exports.listJokesService = exports.addJokeService = void 0;
+exports.deleteJokeService = exports.likeDisLikeJokeService = exports.updateJokeService = exports.getJokeService = exports.listJokesService = exports.addJokeService = void 0;
 const jokes_1 = __importDefault(require("../../models/jokes"));
 const user_1 = __importDefault(require("../../models/user"));
+const jokeTrack_1 = __importDefault(require("../../models/jokeTrack"));
+const jokesConstant_1 = require("../../config/constants/jokesConstant");
 const addJokeService = (req) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const joke = yield jokes_1.default.create(req.body);
@@ -27,15 +29,22 @@ const addJokeService = (req) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.addJokeService = addJokeService;
 const listJokesService = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        let jokes = yield jokes_1.default.find().then((res) => __awaiter(void 0, void 0, void 0, function* () {
-            yield Promise.all(res.map((joke) => __awaiter(void 0, void 0, void 0, function* () {
-                const user = yield user_1.default.findOne({ _id: joke.author });
-                joke.authorName = user.name;
-                return joke;
-            })));
-            return res;
-        }));
+        const jokes = yield jokes_1.default.find()
+            .populate([{ path: "author", select: "name" }])
+            .select("-updatedAt -createdAt -__v")
+            .sort({ createdAt: -1 })
+            .lean();
+        for (const joke of jokes) {
+            const track = yield jokeTrack_1.default.find({ jokeId: joke._id });
+            const likes = track.filter((trc) => trc.status === jokesConstant_1.STATUS.LIKE).length;
+            const dislikes = track.filter((trc) => trc.status === jokesConstant_1.STATUS.DISLIKE).length;
+            joke.likes = likes;
+            joke.dislikes = dislikes;
+            joke.authorName = (_a = joke.author) === null || _a === void 0 ? void 0 : _a.name;
+            delete joke.author;
+        }
         return { flag: true, data: jokes };
     }
     catch (error) {
@@ -64,6 +73,29 @@ const updateJokeService = (req) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.updateJokeService = updateJokeService;
+const likeDisLikeJokeService = (jokeId, data) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const joke = yield jokes_1.default.findById(jokeId).lean();
+        if (!joke) {
+            return { flag: false, data: "Joke not found." };
+        }
+        const user = yield user_1.default.findById(data.userId).lean();
+        if (!user) {
+            return { flag: false, data: "User not found." };
+        }
+        const body = {
+            jokeId: jokeId,
+            userId: data.userId,
+        };
+        const track = yield jokeTrack_1.default.findOneAndUpdate(body, { status: data.status }, { new: true, upsert: true });
+        return { flag: true, data: track };
+    }
+    catch (error) {
+        console.error("Error - likeDisLikeJokeService", error);
+        return { flag: false, data: null };
+    }
+});
+exports.likeDisLikeJokeService = likeDisLikeJokeService;
 const deleteJokeService = (req) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         return { flag: true, data: {} };

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteJokeController = exports.updateJokeController = exports.getJokeController = exports.listJokesController = exports.addJokeController = void 0;
+exports.deleteJokeController = exports.likeDisLikeJokeController = exports.updateJokeController = exports.getJokeController = exports.listJokesController = exports.addJokeController = void 0;
 const jokeService_1 = require("../../services/client/jokeService");
 const addJokeController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -71,6 +71,29 @@ const updateJokeController = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.updateJokeController = updateJokeController;
+const likeDisLikeJokeController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.jokeId;
+        const data = req.body;
+        const result = yield (0, jokeService_1.likeDisLikeJokeService)(id, data);
+        if (result.flag) {
+            res.status(200).json({
+                message: "Jokes fetch Successfully!",
+                data: result.data,
+            });
+        }
+        else {
+            res.status(401).json({
+                message: result.data,
+                data: null,
+            });
+        }
+    }
+    catch (error) {
+        console.error(`Error-likeDisLikeJokeController ${error}`);
+    }
+});
+exports.likeDisLikeJokeController = likeDisLikeJokeController;
 const deleteJokeController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, jokeService_1.deleteJokeService)(req);

@@ -21,7 +21,7 @@ const Login = () => {
         const token = response.data.data.tokens[0].token;
         localStorage.removeItem("token");
         localStorage.setItem("token", token);
-        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        // axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       } else {
         handleErrorResponse(response.data.message);
       }
