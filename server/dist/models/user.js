@@ -11,22 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const mongoose_1 = require("mongoose");
 const db_1 = require("../config/db");
 const userConstant_1 = require("../config/constants/userConstant");
+const cutomPaginate_1 = require("../config/constants/cutomPaginate");
 const bcrypt = require("bcrypt");
 const mongoosePaginate = require("mongoose-paginate-v2");
-var idValidator = require("mongoose-id-validator");
-const myCustomLabels = {
-    totalDocs: "itemCount",
-    docs: "data",
-    limit: "perPage",
-    page: "currentPage",
-    nextPage: "next",
-    prevPage: "prev",
-    totalPages: "pageCount",
-    pagingCounter: "slNo",
-    meta: "paginator",
-};
+// var idValidator = require("mongoose-id-validator");
 mongoosePaginate.paginate.options = {
-    customLabels: myCustomLabels,
+    customLabels: cutomPaginate_1.myCustomLabels,
 };
 const schema = new db_1.Schema({
     name: { type: String }, // Name of User
@@ -54,7 +44,6 @@ const schema = new db_1.Schema({
     toJSON: {
         transform(doc, ret) {
             delete ret.password;
-            delete ret.tokens;
             delete ret.fcmTokens;
             delete ret.__v;
         },
@@ -88,7 +77,7 @@ schema.pre("findOneAndUpdate", function (next) {
     });
 });
 schema.plugin(mongoosePaginate);
-schema.plugin(idValidator);
+// schema.plugin(idValidator);
 schema.methods.isPasswordMatch = function (password) {
     return __awaiter(this, void 0, void 0, function* () {
         return bcrypt.compare(password, this.password);

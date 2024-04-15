@@ -1,21 +1,11 @@
 import { model } from "mongoose";
 import { Schema } from "../config/db";
 import { COUNTRYCONST } from "../config/constants/userConstant";
+import { myCustomLabels } from "../config/constants/cutomPaginate";
 const bcrypt = require("bcrypt");
 const mongoosePaginate = require("mongoose-paginate-v2");
 // var idValidator = require("mongoose-id-validator");
 
-const myCustomLabels = {
-  totalDocs: "itemCount",
-  docs: "data",
-  limit: "perPage",
-  page: "currentPage",
-  nextPage: "next",
-  prevPage: "prev",
-  totalPages: "pageCount",
-  pagingCounter: "slNo",
-  meta: "paginator",
-};
 mongoosePaginate.paginate.options = {
   customLabels: myCustomLabels,
 };

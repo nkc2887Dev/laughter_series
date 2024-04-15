@@ -15,14 +15,14 @@ const userConstant_1 = require("../../config/constants/userConstant");
 const registerUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, userServic_1.createUserService)(req.body);
-        if (result) {
+        if (result.flag) {
             res.status(201).json({
                 message: "User create Successfully!",
-                data: result,
+                data: result.data,
             });
         }
         else {
-            res.status(401).json({
+            res.status(200).json({
                 message: result.data,
                 data: null,
             });
@@ -36,14 +36,14 @@ exports.registerUserController = registerUserController;
 const loginUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, userServic_1.loginUserService)(req.body, userConstant_1.ROLE.CANDIDATE);
-        if (result) {
-            res.status(201).json({
+        if (result.flag) {
+            res.status(200).json({
                 message: "User login Successfully!",
-                data: result,
+                data: result.data,
             });
         }
         else {
-            res.status(401).json({
+            res.status(404).json({
                 message: result.data,
                 data: null,
             });
@@ -66,14 +66,14 @@ exports.forgotPasswordController = forgotPasswordController;
 const profileController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, userServic_1.profileService)(req.user);
-        if (result) {
-            res.status(201).json({
+        if (result.flag) {
+            res.status(200).json({
                 message: "User data has been successfully obtained.",
-                data: result,
+                data: result.data,
             });
         }
         else {
-            res.status(401).json({
+            res.status(200).json({
                 message: result.data,
                 data: null,
             });

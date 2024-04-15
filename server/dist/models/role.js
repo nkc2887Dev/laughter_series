@@ -1,20 +1,10 @@
 "use strict";
 const mongoose_1 = require("mongoose");
 const db_1 = require("../config/db");
+const cutomPaginate_1 = require("../config/constants/cutomPaginate");
 const mongoosePaginate = require("mongoose-paginate-v2");
-const myCustomLabels = {
-    totalDocs: "itemCount",
-    docs: "data",
-    limit: "perPage",
-    page: "currentPage",
-    nextPage: "next",
-    prevPage: "prev",
-    totalPages: "pageCount",
-    pagingCounter: "slNo",
-    meta: "paginator",
-};
 mongoosePaginate.paginate.options = {
-    customLabels: myCustomLabels,
+    customLabels: cutomPaginate_1.myCustomLabels,
 };
 const RoleSchema = new db_1.Schema({
     name: {

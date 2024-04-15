@@ -3,8 +3,9 @@ import User from "../../models/user";
 import Role from "../../models/role";
 import { createUser, login, roles } from "./interfaces/create-user";
 import { generateTokenManually, updateLastLogin } from "../commom/user";
+import { CommonReturnValue } from "../../controller/client/interface/common";
 
-export const createUserService = async (data: createUser): Promise<any> => {
+export const createUserService = async (data: createUser): Promise<CommonReturnValue> => {
   try {
     const roles: any[] = [];
     const finduser = await User.findOne({ $or: [{ email: data.email }, { mobNo: data.mobNo }] });
@@ -24,10 +25,11 @@ export const createUserService = async (data: createUser): Promise<any> => {
     };
   } catch (error) {
     console.error("Error - createUserService", error);
+    return { flag: false, data: null };
   }
 };
 
-export const loginUserService = async (data: login, role: string) => {
+export const loginUserService = async (data: login, role: string): Promise<CommonReturnValue> => {
   try {
     const user: any = await User.findOne({ email: data.email, isActive: true });
 
@@ -52,15 +54,20 @@ export const loginUserService = async (data: login, role: string) => {
     };
   } catch (error) {
     console.error("Error - loginUserService", error);
+    return { flag: false, data: null };
   }
 };
 
-export const forgotPasswordService = async () => {
+export const forgotPasswordService = async (): Promise<CommonReturnValue> => {
   try {
-  } catch (error) {}
+    return { flag: true, data: {} };
+  } catch (error) {
+    console.error("Error - forgotPasswordService", error);
+    return { flag: false, data: null };
+  }
 };
 
-export const profileService = async (user: any) => {
+export const profileService = async (user: any): Promise<CommonReturnValue> => {
   try {
     if (!user) {
       return {
@@ -74,12 +81,15 @@ export const profileService = async (user: any) => {
     };
   } catch (error) {
     console.error("Error - profileService", error);
+    return { flag: false, data: null };
   }
 };
 
-export const logoutUserService = async (req: any) => {
+export const logoutUserService = async (req: any): Promise<CommonReturnValue> => {
   try {
+    return { flag: true, data: {} };
   } catch (error) {
     console.error("Error - logoutUserService", error);
+    return { flag: false, data: null };
   }
 };

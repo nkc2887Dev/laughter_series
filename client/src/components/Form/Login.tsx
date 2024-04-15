@@ -16,9 +16,9 @@ const Login = () => {
         email: email,
         password: password,
       });
-      if (response.data.data) {
+      if (response.data) {
         navigate("/home");
-        const token = response.data.data.data.tokens[0].token;
+        const token = response.data.data.tokens[0].token;
         localStorage.removeItem("token");
         localStorage.setItem("token", token);
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -80,10 +80,10 @@ const Login = () => {
           className="col-md-6 d-flex align-items-center justify-content-center p-5"
           style={{ backgroundColor: "rgba(40, 167, 69, 0.5)" }}
         >
-          <div className="container w-100">
+          <div className="container">
             <form>
               {errorMessage && <div className="alert alert-danger mt-3">{errorMessage}</div>}
-              <div className="form-group p-2">
+              <div className="form-group">
                 <input
                   type="email"
                   className="form-control"
@@ -98,7 +98,7 @@ const Login = () => {
                   className="form-text text-muted"
                 ></small>
               </div>
-              <div className="form-group p-2">
+              <div className="form-group">
                 <input
                   type="password"
                   className="form-control"
@@ -120,18 +120,15 @@ const Login = () => {
               className="mt-4 mb-3"
               style={{ borderTop: "1px solid #ccc" }}
             />
-            <div>
-              <span>
-                Don't have an account ?
-                <Link
-                  className="ml-2"
-                  to="/register"
-                >
-                  Sign Up
-                </Link>
-              </span>
-            </div>
-            {/* Added line */}
+            <span>
+              Don't have an account ?
+              <Link
+                className="ml-2"
+                to="/register"
+              >
+                Sign Up
+              </Link>
+            </span>
           </div>
         </div>
       </div>

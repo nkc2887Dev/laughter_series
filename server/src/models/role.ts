@@ -1,18 +1,7 @@
 import { model } from "mongoose";
 import { Schema } from "../config/db";
+import { myCustomLabels } from "../config/constants/cutomPaginate";
 const mongoosePaginate = require("mongoose-paginate-v2");
-
-const myCustomLabels = {
-  totalDocs: "itemCount",
-  docs: "data",
-  limit: "perPage",
-  page: "currentPage",
-  nextPage: "next",
-  prevPage: "prev",
-  totalPages: "pageCount",
-  pagingCounter: "slNo",
-  meta: "paginator",
-};
 
 mongoosePaginate.paginate.options = {
   customLabels: myCustomLabels,
