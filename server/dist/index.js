@@ -12,6 +12,7 @@ const seeders_1 = __importDefault(require("./seeders"));
 const passport_1 = __importDefault(require("passport"));
 const express_session_1 = __importDefault(require("express-session"));
 const userConstant_1 = require("./config/constants/userConstant");
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 db_1.default;
 const app = (0, express_1.default)();
@@ -22,6 +23,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 if (config_1.default.SEED == "true") {
     (0, seeders_1.default)();
 }
+app.use((0, cors_1.default)());
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 require("./config/passport")(passport_1.default);

@@ -22,15 +22,23 @@ const createUserService = (data) => __awaiter(void 0, void 0, void 0, function* 
         const roles = [];
         const finduser = yield user_1.default.findOne({ $or: [{ email: data.email }, { mobNo: data.mobNo }] });
         if (finduser) {
-            return "Provided email or phone number are already exists.";
+            return {
+                flag: false,
+                data: "Provided email or phone number are already exists.",
+            };
         }
         const roleData = yield role_1.default.findOne({ code: userConstant_1.ROLE.CANDIDATE });
         roles.push({ roleId: roleData._id });
         data.roles = roles;
-        return user_1.default.create(data);
+        const createUser = yield user_1.default.create(data);
+        return {
+            flag: true,
+            data: createUser,
+        };
     }
     catch (error) {
         console.error("Error - createUserService", error);
+        return { flag: false, data: null };
     }
 });
 exports.createUserService = createUserService;
@@ -38,44 +46,67 @@ const loginUserService = (data, role) => __awaiter(void 0, void 0, void 0, funct
     try {
         const user = yield user_1.default.findOne({ email: data.email, isActive: true });
         if (!user) {
-            return "User not found!";
+            return {
+                flag: false,
+                data: "User not found!",
+            };
         }
         const isPasswordMatch = yield user.isPasswordMatch(data.password);
         if (!isPasswordMatch) {
-            return "Password is wrong!";
+            return {
+                flag: false,
+                data: "Password is wrong!",
+            };
         }
         yield (0, user_2.updateLastLogin)(user);
         yield (0, user_2.generateTokenManually)({ user, email: user.email });
-        return user;
+        return {
+            flag: true,
+            data: user,
+        };
     }
     catch (error) {
         console.error("Error - loginUserService", error);
+        return { flag: false, data: null };
     }
 });
 exports.loginUserService = loginUserService;
 const forgotPasswordService = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        return { flag: true, data: {} };
     }
-    catch (error) { }
+    catch (error) {
+        console.error("Error - forgotPasswordService", error);
+        return { flag: false, data: null };
+    }
 });
 exports.forgotPasswordService = forgotPasswordService;
 const profileService = (user) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!user) {
-            return "User not found!";
+            return {
+                flag: false,
+                data: "User not found!",
+            };
         }
-        return user;
+        return {
+            flag: true,
+            data: user,
+        };
     }
     catch (error) {
         console.error("Error - profileService", error);
+        return { flag: false, data: null };
     }
 });
 exports.profileService = profileService;
 const logoutUserService = (req) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        return { flag: true, data: {} };
     }
     catch (error) {
         console.error("Error - logoutUserService", error);
+        return { flag: false, data: null };
     }
 });
 exports.logoutUserService = logoutUserService;

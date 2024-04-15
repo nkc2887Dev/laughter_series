@@ -24,7 +24,7 @@ const Navbar = () => {
             <li className="nav-item active mr-4">
               <Link
                 className="nav-link"
-                to="home"
+                to=""
               >
                 Home
               </Link>

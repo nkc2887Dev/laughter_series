@@ -14,7 +14,7 @@ const Profile = () => {
     axiosInstance
       .get("client/user/profile")
       .then((res) => {
-        const user = res.data.data.data;
+        const user = res.data.data;
         setFirstName(user.firstName);
         setLastName(user.lastName);
         setMobNo(user.mobNo);

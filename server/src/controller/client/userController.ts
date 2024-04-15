@@ -7,14 +7,15 @@ import {
   profileService,
 } from "../../services/client/userServic";
 import { ROLE } from "../../config/constants/userConstant";
+import { CommonReturnValue } from "./interface/common";
 
 export const registerUserController = async (req: Request, res: Response) => {
   try {
-    const result = await createUserService(req.body);
+    const result: CommonReturnValue = await createUserService(req.body);
     if (result.flag) {
       res.status(201).json({
         message: "User create Successfully!",
-        data: result,
+        data: result.data,
       });
     } else {
       res.status(200).json({
@@ -29,11 +30,11 @@ export const registerUserController = async (req: Request, res: Response) => {
 
 export const loginUserController = async (req: Request, res: Response) => {
   try {
-    const result: any = await loginUserService(req.body, ROLE.CANDIDATE);
+    const result: CommonReturnValue = await loginUserService(req.body, ROLE.CANDIDATE);
     if (result.flag) {
       res.status(200).json({
         message: "User login Successfully!",
-        data: result,
+        data: result.data,
       });
     } else {
       res.status(404).json({
@@ -48,7 +49,7 @@ export const loginUserController = async (req: Request, res: Response) => {
 
 export const forgotPasswordController = async (req: Request, res: Response) => {
   try {
-    const result = await forgotPasswordService();
+    const result: CommonReturnValue = await forgotPasswordService();
   } catch (error) {
     console.error(`Error-registerUser ${error}`);
   }
@@ -56,11 +57,11 @@ export const forgotPasswordController = async (req: Request, res: Response) => {
 
 export const profileController = async (req: Request, res: Response) => {
   try {
-    const result: any = await profileService(req.user);
+    const result: CommonReturnValue = await profileService(req.user);
     if (result.flag) {
       res.status(200).json({
         message: "User data has been successfully obtained.",
-        data: result,
+        data: result.data,
       });
     } else {
       res.status(200).json({
@@ -75,7 +76,7 @@ export const profileController = async (req: Request, res: Response) => {
 
 export const logoutUserController = async (req: any, res: Response) => {
   try {
-    const result = await logoutUserService(req);
+    const result: CommonReturnValue = await logoutUserService(req);
   } catch (error) {
     console.error(`Error-registerUser ${error}`);
   }
