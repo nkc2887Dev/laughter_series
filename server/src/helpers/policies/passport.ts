@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import Role from "../../models/role";
-import User from "../../models/user";
 
 export const authentication = (req: Request | any, res: Response, next: NextFunction) => {
   try {
@@ -25,10 +24,10 @@ export const authentication = (req: Request | any, res: Response, next: NextFunc
           data: {},
         });
       }
-      const role: any = await Role.findOne({ _id: user?.roles[0]?.roleId });
+      const role: any = await Role.findOne({ _id: user.roles[0]?.roleId });
       req.userId = user.id;
       req.user = user;
-      req.roleId = user?.roles[0].roleId;
+      req.roleId = user.roles[0]?.roleId;
       req.role = role.code;
       next();
     })(req, res, next);

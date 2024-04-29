@@ -24,9 +24,17 @@ const Navbar = () => {
             <li className="nav-item active">
               <Link
                 className="nav-link"
-                to=""
+                to="home"
               >
                 Home
+              </Link>
+            </li>
+            <li className="nav-item active">
+              <Link
+                className="nav-link"
+                to="my-jokes"
+              >
+                My Jokes
               </Link>
             </li>
             <li className="btn-group dropleft">
@@ -47,13 +55,13 @@ const Navbar = () => {
               <div className="dropdown-menu">
                 <Link
                   className="dropdown-item"
-                  to="/home/profile"
+                  to="/profile"
                 >
                   Profile
                 </Link>
                 <Link
                   className="dropdown-item"
-                  to="/home/joke"
+                  to="/joke"
                 >
                   Post a joke
                 </Link>

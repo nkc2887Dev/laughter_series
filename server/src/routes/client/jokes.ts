@@ -7,6 +7,7 @@ import {
   likeDisLikeJokeController,
   listJokesController,
   updateJokeController,
+  listUserJokesController,
 } from "../../controller/client/jokeController";
 import { validate } from "../../helpers/policies/validate";
 import { addJoke, likeDisLikeJoke, updateJoke } from "../../helpers/validations/jokeValidate";
@@ -19,5 +20,8 @@ routes.get("/list", authentication, listJokesController);
 routes.put("/update", authentication, validate(updateJoke), updateJokeController);
 routes.post("/like-dislike/:jokeId", authentication, validate(likeDisLikeJoke), likeDisLikeJokeController);
 routes.delete("/delete", authentication, deleteJokeController);
+
+// User-Jokes
+routes.get("/user-list", authentication, listUserJokesController);
 
 export = routes;

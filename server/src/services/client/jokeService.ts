@@ -40,6 +40,21 @@ export const listJokesService = async (req: any): Promise<CommonReturnValue> => 
   }
 };
 
+export const listUserJokesService = async (req: any): Promise<CommonReturnValue> => {
+  try {
+    const jokes: Joke[] = await Jokes.find({ author: req.userId })
+      .populate([{ path: "author", select: "name" }])
+      .select("-updatedAt -createdAt -__v")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return { flag: true, data: jokes };
+  } catch (error) {
+    console.error("Error - listJokesService", error);
+    return { flag: false, data: null };
+  }
+};
+
 export const getJokeService = async (req: any): Promise<CommonReturnValue> => {
   try {
     return { flag: true, data: {} };
