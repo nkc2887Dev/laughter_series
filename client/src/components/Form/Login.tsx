@@ -17,11 +17,10 @@ const Login = () => {
         password: password,
       });
       if (response.data) {
-        navigate("/home");
         const token = response.data.data.tokens[0].token;
         localStorage.removeItem("token");
         localStorage.setItem("token", token);
-        // axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        navigate("/home");
       } else {
         handleErrorResponse(response.data.message);
       }

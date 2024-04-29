@@ -5,6 +5,7 @@ import {
   getJokeService,
   likeDisLikeJokeService,
   listJokesService,
+  listUserJokesService,
   updateJokeService,
 } from "../../services/client/jokeService";
 import { CommonReturnValue } from "./interface/common";
@@ -44,6 +45,25 @@ export const listJokesController = async (req: any, res: Response) => {
     }
   } catch (error) {
     console.error(`Error-listJokesController ${error}`);
+  }
+};
+
+export const listUserJokesController = async (req: any, res: Response) => {
+  try {
+    const result: CommonReturnValue = await listUserJokesService(req);
+    if (result.flag) {
+      res.status(201).json({
+        message: "User jokes list fetch Successfully!",
+        data: result.data,
+      });
+    } else {
+      res.status(401).json({
+        message: result.data,
+        data: null,
+      });
+    }
+  } catch (error) {
+    console.error(`Error-listUserJokesController ${error}`);
   }
 };
 
